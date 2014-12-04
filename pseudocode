@@ -1,0 +1,58 @@
+Function Descriptions
+List the Internal and External Vertices using a Given Newick String 
+Internal Vertices:
+Let opening parentheses [“(”] have a value of +1 and ending parentheses [“)”] have a value of -1. 
+Start at the second character of the Newick string (excluding the outermost set of parentheses that represent the root)
+If this character is an opening parentheses, then move to the right keeping track of the weight of the string by adding the values of the passed opening and ending parentheses. You should include the value of the opening parentheses that you start at. 
+When the weight of the string is 0, stop moving along the Newick string and return the piece beginning with the opening parentheses you started at and ending with the ending parentheses that you last counted. (This should be returned as a span of characters, such as 2-7, where 2 is the second character in the original Newick string and 7 is the seventh character in the Newick string).
+Repeat this function until all non-root parentheses sets have been represented as character spans. These character spans should be stored in a list for later retrieval.
+External Vertices:
+Start at the first character in the string and move along the Newick string unit you find a character that is not a comma, opening or ending parentheses, or semicolon. Make note of the character number of the starting character. 
+Move along the string until you reach a comma, parentheses, or semicolon and then move back one character. This is the ending character. A string of characters from starting character S to ending character E, including all characters in between, is a span of characters. A span of characters can be quantified by the number of characters it contains. The span of character where S-E contain only letters or number (no punctuation) is an internal vertex.
+Move along the string until all character spans representing external vertices have been found and store these character spans in a list for later retrieval.
+List the Path Length Between Any Two Vertices 
+Retrieve the list of external and internal vertices and return all possible pairs of external vertices.
+For each possible pair of vertices, find the internal vertex (which should be contained in the list previously made) which the fewest included number of characters that includes both spans of the pair of vertices. This internal vertex is referred to as V for future reference. We will find the number of internal vertices that contain one of the pair of vertices but not V. This number of internal vertices +1 (which accounts for V) = the number of edges between the vertices.
+Disclaimer: if v is the vertex which spans the entire length of the Newick string, the new do not add 1. 
+Dividing External Vertices Into Three Groups Given a Non-Root Internal Vertex
+Retrieve the list of internal vertices 
+For each internal vertex in the list, locate the comma contained within the least number of parentheses and notice what character number it is. This will be denoted CC.
+Looking at only the span of characters representing the internal vertex, first separate the string from S to CC and from CC to E. Then, group the external vertices according to which span (either from S-CC or CC-E) the character span of the external vertex is included in. If the character span of an external vertex is not included in either of these groups, place it in a third group. 
+Computing the Relative Taxa Set and the VDS
+Relative Taxa Set
+For every internal vertex, retrieve the three groups of taxa associated with the vertex. 
+Retrieve the path length from the internal vertex to each external vertex. 
+From each group, choose the external vertex the fewest number of edges away from the internal vertex. If more than one external vertex is the fewest number of edges away, choose the external vertex that is present in the largest number of other relative taxa sets. If more than one external vertex has occurred the most times in other relative taxa sets, the choice does not matter.
+The triple of one closest external vertex from each group of external vertices is the relative taxa set.
+VDS
+Return the relative taxa set for all internal vertices.
+For each relative taxa set, return the possible combinations of two external vertices.
+The three possible combinations of two external vertices is the VDS.
+Labeling Internal Vertices as Cherries, Pendants, or Trips and Labeling a Series of Pendant Edges
+Cherries
+For any internal vertex, return the three groups of divided external vertices.
+If two of these groups contain only one element, the internal vertex is a cherry.
+Pendants
+For any internal vertex, return the three groups of divided external vertices.
+If one of these groups contains only one element, the internal vertex is a pendant.
+Trips
+For any internal vertex, return the three groups of divided external vertices.
+If all of these groups contains more than one element, the internal vertex is a trip.
+Series of Pendant Edges
+For any pendant vertex, return all internal vertices that are path length one away.
+If one of these internal vertices is also a pendant vertex, return all internal vertices that are path length one away from this new pendant vertex (do not include pendant vertices already noted).
+Continue this pattern until there are no pendant vertices path length one away.
+The beginning and ending pendant vertices are the ones which are one path length away from a non-pendant vertex. A series of pendant edges begins at the non-pendant vertex one path length away from the beginning pendant vertex and ends at the non-pendant vertex one path length away from the ending pendant vertex.
+Return this span of characters. All internal vertex character spans included in this span are pendant vertices excluding the largest and smallest character spans (meaning the spans with most and fewest included characters, respectively). 
+A series of pendant edges can be described as length n where n is the number of pendant vertices plus 1. 
+Finding the Quartet Between Any Two Internal Vertices
+For any two internal vertices, look at the relative taxa set of one and the three groups of divided external vertices of the other. If one of the three groups of divided external vertices contains two of the other internal vertices relative taxa set, discard the relative taxa that came from that group of divided external vertices. The pair of taxa in the VDS containing the remaining two relative taxa is included in the quartet.
+Outputting the (Less) Efficient Quartet System
+Return all possible quartets using the function that finds a quartet between any two internal vertices.
+Outputting the (Real) Efficient Quartet System 
+Return all possible quartets using the function that finds a quartet between any two internal vertices that possess one of the following criteria:
+The quartet is path length 1
+The quartet is path length 2
+One internal vertex is a cherry
+The quartet is path length less than or equal to n contained within a series of n pendant edges
+To be contained within a series of pendant edges means that both internal vertices being represented by the quartet are present in the series of pendant edges. 
